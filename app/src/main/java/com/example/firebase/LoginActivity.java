@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         auth=FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser()!=null){
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
         setContentView(R.layout.activity_login);
+
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,9 +52,17 @@ public class LoginActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, signup.class));
+                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
             }
         });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Introducir la contraseña !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "¡Introducir la contraseña!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

@@ -1,4 +1,3 @@
-
 package com.example.firebase;
 
 import android.content.Intent;
@@ -17,7 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class signup extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
@@ -26,11 +25,11 @@ public class signup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        //get Firebase auth instance
+
     auth=FirebaseAuth.getInstance();
 
     btnSignIn=(Button) findViewById(R.id.sign_in_button);
-    btnSignUp=(Button)findViewById(R.id.sign_in_button);
+    btnSignUp=(Button)findViewById(R.id.sign_up_button);
     inputEmail=(EditText) findViewById(R.id.email);
     inputPassword=(EditText)findViewById(R.id.password);
     progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -39,7 +38,7 @@ public class signup extends AppCompatActivity {
     btnResetPassword.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(signup.this, ResetPasswordActivity.class));
+            startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
         }
     });
     btnSignIn.setOnClickListener(new View.OnClickListener(){
@@ -57,30 +56,31 @@ public class signup extends AppCompatActivity {
             String password=inputPassword.getText().toString().trim();
 
             if(TextUtils.isEmpty(email)){
-                Toast.makeText(getApplicationContext(), "Introdusca la direccion de correo electronico!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Introduzca la dirección de correo electrónico!",Toast.LENGTH_SHORT).show();
                 return;
             }
             if(TextUtils.isEmpty(password)) {
-                Toast.makeText(getApplicationContext(), "Introdusca la contraseña", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Introducir la contraseña!", Toast.LENGTH_SHORT).show();
                 return;
             }
             if(password.length()<6){
-                Toast.makeText(getApplicationContext(),"contraseña demasiada corta, ingrese un minimo de 6 caracteres",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Contraseña demasiado corta, ingrese un mínimo de 6 caracteres",Toast.LENGTH_SHORT).show();
                 return;
             }
+
             progressBar.setVisibility(View.VISIBLE);
-            //create user
+
             auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(signup.this, new OnCompleteListener<AuthResult>() {
+                    .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            Toast.makeText(signup.this,"createUserWithEmail:onComplete:" + task.isSuccessful(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this,"createUserWithEmail:onComplete:" + task.isSuccessful(),Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                             if(!task.isSuccessful()){
-                                Toast.makeText(signup.this,"Autentificación fallida."+task.getException(),
+                                Toast.makeText(SignupActivity.this,"Autentificación fallida."+task.getException(),
                                         Toast.LENGTH_SHORT).show();
                             }else{
-                                startActivity(new Intent(signup.this, MainActivity.class));
+                                startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                 finish();
                             }
                         }

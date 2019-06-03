@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,9 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,9 +40,10 @@ private FirebaseAuth auth;
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        authListener = FirebaseAuth.AuthStateListener(){
+
+        authListener = new FirebaseAuth.AuthStateListener(){
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user == null){
 
@@ -52,6 +52,8 @@ private FirebaseAuth auth;
                 }
             }
         };
+
+
 
         btnChangeEmail = (Button) findViewById(R.id.change_email_button);
         btnChangePassword = (Button) findViewById(R.id.change_password_button);
@@ -251,7 +253,7 @@ private FirebaseAuth auth;
     @Override
     public void onStart(){
         super.onStart();
-        auth.addAuthStateListener();
+        auth.addAuthStateListener(authListener);
     }
 
     @Override
